@@ -1,8 +1,8 @@
 "use client";
 
-import { BooksIcon, CalendarBlankIcon, LockKeyIcon, MagnifyingGlassIcon, MoonIcon, NotePencilIcon, SunIcon, TranslateIcon, XIcon, CircleHalfIcon } from "@phosphor-icons/react";
+import { BooksIcon, CalendarBlankIcon, LockKeyIcon, MagnifyingGlassIcon, MoonIcon, NotePencilIcon, SunIcon, TranslateIcon, TrashIcon, XIcon, CircleHalfIcon } from "@phosphor-icons/react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { useT } from "@/lib/i18n";
 import { LANGUAGES } from "@/lib/modes";
 import { type ThemeChoice, useTheme } from "@/lib/useTheme";
@@ -24,6 +24,7 @@ type Props = {
   onSelect: (id: string) => void;
   language: string;
   onLanguage: (language: string) => void;
+  onRemove: (id: string) => void;
   onClear: () => void;
 };
 
@@ -47,9 +48,11 @@ const THEMES: { id: ThemeChoice; icon: ReactNode }[] = [
 ];
 
 export function Sidebar(props: Props) {
-  const { open, onClose, sessions, activeId, view, onNew, onLibrary, onCalendar, onSearch, onSelect, language, onLanguage, onClear } = props;
+  const { open, onClose, sessions, activeId, view, onNew, onLibrary, onCalendar, onSearch, onSelect, language, onLanguage, onRemove, onClear } = props;
   const theme = useTheme();
   const t = useT();
+  // History is kept now, so clearing all of it asks twice (without a browser dialog).
+  const [sure, setSure] = useState(false);
   // Only once something's been read, so the server's prerender never reads the clock.
   const upcoming = sessions.length ? allDates(sessions).filter((d) => d.date >= iso(new Date())).length : 0;
 
@@ -141,8 +144,15 @@ export function Sidebar(props: Props) {
         <div className="mt-6 flex items-center justify-between px-5 pb-2">
           <p className="label">{t.history}</p>
           {sessions.length > 0 && (
-            <button onClick={onClear} className="font-mono text-[10px] uppercase tracking-wider text-muted transition hover:text-alert">
-              {t.clear}
+            <button
+              onClick={() => {
+                if (sure) onClear();
+                setSure(!sure);
+              }}
+              onBlur={() => setSure(false)}
+              className={`font-mono text-[10px] uppercase tracking-wider transition hover:text-alert ${sure ? "text-alert" : "text-muted"}`}
+            >
+              {sure ? t.clearSure : t.clear}
             </button>
           )}
         </div>
@@ -156,10 +166,10 @@ export function Sidebar(props: Props) {
           ) : (
             <ul className="space-y-0.5">
               {sessions.map((s) => (
-                <li key={s.id}>
+                <li key={s.id} className="group relative">
                   <button
                     onClick={() => onSelect(s.id)}
-                    className={`flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition ${view === "session" && s.id === activeId ? "bg-glass-strong text-ink" : "text-ink-2 hover:bg-glass"}`}
+                    className={`flex w-full items-center gap-3 rounded-xl py-2 pl-2.5 pr-8 text-left transition ${view === "session" && s.id === activeId ? "bg-glass-strong text-ink" : "text-ink-2 hover:bg-glass"}`}
                   >
                     <span className="text-muted">
                       <ModeIcon mode={s.reading?.mode ?? s.mode} size={16} />
@@ -173,6 +183,16 @@ export function Sidebar(props: Props) {
                       </span>
                     </span>
                   </button>
+                  {s.status !== "reading" && (
+                    <button
+                      onClick={() => onRemove(s.id)}
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-muted transition hover:text-alert focus:opacity-100 md:opacity-0 md:group-hover:opacity-100"
+                      aria-label={t.remove(s.reading?.title ?? s.docs[0]?.name ?? "")}
+                      title={t.remove(s.reading?.title ?? s.docs[0]?.name ?? "")}
+                    >
+                      <TrashIcon size={14} weight="duotone" />
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

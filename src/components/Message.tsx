@@ -96,11 +96,13 @@ function Blocks({ text }: { text: string }) {
 function Letter({ text }: { text: string }) {
   const t = useT();
   const [copied, setCopied] = useState(false);
+  // A letter is pasted as is, so markdown bold would arrive as asterisks.
+  const plain = text.trim().replace(/\*\*([^*\n]+)\*\*/g, "$1");
   return (
     <div className="relative my-3 rounded-[18px] bg-solid px-5 py-5 shadow-[0_12px_32px_-18px_rgba(60,40,20,0.4)] ring-1 ring-line">
       <button
         onClick={() => {
-          navigator.clipboard.writeText(text.trim());
+          navigator.clipboard.writeText(plain);
           setCopied(true);
           setTimeout(() => setCopied(false), 1600);
         }}
@@ -110,7 +112,7 @@ function Letter({ text }: { text: string }) {
         {copied ? t.copied : t.copy}
       </button>
       <p className="label mb-3">{t.readyToSend}</p>
-      <div className="whitespace-pre-wrap font-serif text-[16px] leading-relaxed text-ink">{text.trim()}</div>
+      <div className="whitespace-pre-wrap font-serif text-[16px] leading-relaxed text-ink">{plain}</div>
     </div>
   );
 }
