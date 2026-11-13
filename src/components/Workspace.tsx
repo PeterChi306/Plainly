@@ -3,6 +3,7 @@
 import { ArrowsClockwiseIcon, CaretDownIcon, ListIcon, TranslateIcon, WarningIcon } from "@phosphor-icons/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type Doc, fetchDoc } from "@/lib/files";
+import { forget, forgetAll, keep, loadHistory } from "@/lib/history";
 import { useLanguage } from "@/lib/i18n";
 import { marksOf } from "@/lib/marks";
 import { DAILY_MESSAGES, LANGUAGES, MODES } from "@/lib/modes";
@@ -23,6 +24,8 @@ import { Thinking, TypingOrb } from "./Thinking";
 
 export type Session = {
   id: string;
+  /** When it was first read. */
+  at: number;
   docs: Doc[];
   mode: ModeChoice;
   language: string;
@@ -47,9 +50,11 @@ type Side = "left" | "right";
 
 const SIDE_KEY = "plainly-paper-side";
 
-// Everything lives in this tab's memory. Close it and it's gone.
+// Finished readings are kept in this browser (see history.ts), never on the server.
 export function Workspace() {
   const [sessions, setSessions] = useState<Session[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const kept = useRef(new Map<string, Session>());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [view, setView] = useState<View>("home");
   const [mode, setMode] = useState<ModeChoice>("auto");
@@ -70,6 +75,25 @@ export function Workspace() {
 
   const active = view === "session" ? (sessions.find((s) => s.id === activeId) ?? null) : null;
   const marks = useMemo(() => (active?.reading?.readable ? marksOf(active.reading) : []), [active?.reading]);
+
+  // What was read here before comes back, after anything already started.
+  useEffect(() => {
+    loadHistory().then((past) => {
+      for (const s of past) kept.current.set(s.id, s);
+      setSessions((now) => [...now, ...past.filter((p) => !now.some((n) => n.id === p.id))]);
+      setLoaded(true);
+    });
+  }, []);
+
+  // Save a session whenever it settles: read, ticked, or answered.
+  useEffect(() => {
+    if (!loaded) return;
+    for (const s of sessions) {
+      if (s.status !== "ready" || s.answering || kept.current.get(s.id) === s) continue;
+      kept.current.set(s.id, s);
+      keep(s);
+    }
+  }, [sessions, loaded]);
 
   useEffect(() => {
     document.documentElement.lang = LANGUAGES.find((l) => l.id === language)?.locale.split("-")[0] ?? "en";
@@ -164,7 +188,7 @@ export function Workspace() {
   const start = useCallback(
     async (docs: Doc[], m: ModeChoice, question = "") => {
       const id = crypto.randomUUID();
-      setSessions((all) => [{ id, docs, mode: m, language, question, status: "reading", chat: [], answering: false, ticked: [] }, ...all]);
+      setSessions((all) => [{ id, at: Date.now(), docs, mode: m, language, question, status: "reading", chat: [], answering: false, ticked: [] }, ...all]);
       go("session", id);
       const reading = await read(id, docs, m, language, question);
       // A question typed alongside the upload is answered right after.
@@ -243,8 +267,16 @@ export function Workspace() {
         onSelect={(id) => go("session", id)}
         language={language}
         onLanguage={setLanguage}
+        onRemove={(id) => {
+          setSessions((all) => all.filter((s) => s.id !== id));
+          kept.current.delete(id);
+          forget(id);
+          if (id === activeId) go("home");
+        }}
         onClear={() => {
           setSessions([]);
+          kept.current.clear();
+          forgetAll();
           go("home");
         }}
       />

@@ -6,10 +6,11 @@ import { daysUntil, prettyDate } from "@/lib/ics";
 import { useT } from "@/lib/i18n";
 import type { Mode } from "@/lib/types";
 import { Thumb } from "./Home";
+import { iso } from "./CalendarView";
 import { ModeIcon } from "./ModeIcon";
 import type { Session } from "./Workspace";
 
-// Every paper read this session, laid out by kind, with what's next on each.
+// Every paper read in this browser, laid out by kind, with what's next on each.
 export function Library({ sessions, onOpen, onNew }: { sessions: Session[]; onOpen: (id: string) => void; onNew: () => void }) {
   const t = useT();
   const [filter, setFilter] = useState<Mode | "all">("all");
@@ -68,7 +69,8 @@ export function Library({ sessions, onOpen, onNew }: { sessions: Session[]; onOp
                       <span className="text-accent">
                         <ModeIcon mode={s.reading?.mode ?? s.mode} size={14} />
                       </span>
-                      <span className="label">{s.reading?.kind ?? (s.status === "reading" ? t.readingLabel : t.didntFinish)}</span>
+                      <span className="label truncate">{s.reading?.kind ?? (s.status === "reading" ? t.readingLabel : t.didntFinish)}</span>
+                      <span className="label shrink-0">· {prettyDate(iso(new Date(s.at)))}</span>
                     </span>
                     <span className="mt-1 block truncate font-serif text-[21px] leading-tight text-ink">{s.reading?.title ?? s.docs[0]?.name}</span>
                     {s.reading && <span className="mt-1 line-clamp-2 block text-[12.5px] leading-snug text-ink-2">{s.reading.headline}</span>}
