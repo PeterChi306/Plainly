@@ -1,0 +1,343 @@
+@import "tailwindcss";
+
+/* The living room: plaster walls, a linen sofa, caramel leather chairs,
+   walnut blocks, an espresso floor and candlelight from the chandelier.
+   Evening is the same room with the lamps on. */
+:root {
+  --bg: #f3efe8;
+  --bg-2: #ebe4d9;
+  --glass: rgba(255, 252, 247, 0.62);
+  --desk: rgba(120, 88, 60, 0.07);
+  --glass-strong: rgba(255, 252, 247, 0.84);
+  --solid: #fbf8f3;
+  --line: rgba(64, 44, 28, 0.09);
+  --line-strong: rgba(64, 44, 28, 0.16);
+  --ink: #2a211b;
+  --ink-2: #5d5148;
+  --muted: #9b9086;
+  --accent: #8a5a36;
+  --accent-2: #a87449;
+  --on-accent: #fbf6ef;
+  --walnut: #5b3b25;
+  --candle: #e8b766;
+  --linen: #e6dccb;
+  --ok: #5f7350;
+  --warn: #b07a2c;
+  --alert: #a3452e;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 18px 50px -24px rgba(70, 45, 25, 0.28);
+  color-scheme: light;
+}
+
+/* Evening: the same room with the lamps on. Follows the system unless
+   the person picks light or dark (data-theme on <html>). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1511;
+    --bg-2: #211a15;
+    --glass: rgba(43, 34, 28, 0.55);
+  --desk: rgba(0, 0, 0, 0.28);
+    --desk: rgba(0, 0, 0, 0.28);
+    --glass-strong: rgba(43, 34, 28, 0.82);
+    --solid: #261e18;
+    --line: rgba(255, 236, 214, 0.08);
+    --line-strong: rgba(255, 236, 214, 0.15);
+    --ink: #f2eadf;
+    --ink-2: #c7b9aa;
+    --muted: #8a7e73;
+    --accent: #c8925f;
+    --accent-2: #dba977;
+    --on-accent: #1f1712;
+    --walnut: #d6aa80;
+    --candle: #f0c27a;
+    --linen: #3a2f27;
+    --ok: #9cb085;
+    --warn: #e0ad5c;
+    --alert: #e08367;
+    --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 60px -28px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1a1511;
+  --bg-2: #211a15;
+  --glass: rgba(43, 34, 28, 0.55);
+  --glass-strong: rgba(43, 34, 28, 0.82);
+  --solid: #261e18;
+  --line: rgba(255, 236, 214, 0.08);
+  --line-strong: rgba(255, 236, 214, 0.15);
+  --ink: #f2eadf;
+  --ink-2: #c7b9aa;
+  --muted: #8a7e73;
+  --accent: #c8925f;
+  --accent-2: #dba977;
+  --on-accent: #1f1712;
+  --walnut: #d6aa80;
+  --candle: #f0c27a;
+  --linen: #3a2f27;
+  --ok: #9cb085;
+  --warn: #e0ad5c;
+  --alert: #e08367;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 60px -28px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-glass: var(--glass);
+  --color-desk: var(--desk);
+  --color-glass-strong: var(--glass-strong);
+  --color-solid: var(--solid);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-on-accent: var(--on-accent);
+  --color-walnut: var(--walnut);
+  --color-candle: var(--candle);
+  --color-linen: var(--linen);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-alert: var(--alert);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument);
+  --font-script: var(--font-pinyon);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-geist), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Candlelight from above, daylight from the arched window, the rug below,
+   and a little plaster grain over all of it. */
+.room {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 30rem at 50% -8%, color-mix(in oklab, var(--candle) 30%, transparent), transparent 70%),
+    radial-gradient(34rem 26rem at 100% 12%, color-mix(in oklab, #b9c9b4 26%, transparent), transparent 70%),
+    radial-gradient(50rem 22rem at 30% 108%, color-mix(in oklab, var(--linen) 90%, transparent), transparent 70%),
+    var(--bg);
+}
+
+.room::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .3 0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .room::after {
+    mix-blend-mode: screen;
+    opacity: 0.18;
+  }
+}
+
+:root[data-theme="dark"] .room::after {
+  mix-blend-mode: screen;
+  opacity: 0.18;
+}
+
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  backdrop-filter: blur(22px) saturate(1.4);
+  box-shadow: var(--shadow);
+}
+
+.glass-strong {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  backdrop-filter: blur(28px) saturate(1.5);
+  box-shadow: var(--shadow);
+}
+
+.label {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.rise {
+  animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--muted) 0%, var(--ink) 50%, var(--muted) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 2.4s linear infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.scroll-quiet {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .shimmer {
+    animation: none;
+  }
+}
+
+/* Papers landing on the desk: they drop in from above, tilted, and settle
+   with a small bounce at their resting angle (--rest). */
+.settle {
+  animation: settle 0.9s cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+}
+
+@keyframes settle {
+  0% {
+    opacity: 0;
+    transform: translateY(-70px) rotate(calc(var(--rest, 0deg) - 16deg)) scale(1.12);
+    filter: blur(6px);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(6px) rotate(calc(var(--rest, 0deg) + 2deg)) scale(0.98);
+    filter: none;
+  }
+  100% {
+    transform: translateY(0) rotate(var(--rest, 0deg)) scale(1);
+  }
+}
+
+/* Candlelight spreading from where the papers were let go. */
+.ripple {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(circle, color-mix(in oklab, var(--candle) 70%, transparent), transparent 70%);
+  animation: ripple 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(42);
+  }
+}
+
+/* The empty stack on the desk lifts toward the cursor while a file hovers. */
+.lift > span {
+  transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.25, 1.2);
+}
+
+.pop {
+  animation: pop 0.35s cubic-bezier(0.2, 0.9, 0.25, 1.2) both;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settle,
+  .ripple,
+  .pop {
+    animation: none;
+  }
+}
+
+/* While Plainly reads, a band of candlelight passes down the page. */
+.scan {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 22%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--candle) 34%, transparent) 70%, color-mix(in oklab, var(--accent-2) 55%, transparent) 98%, transparent);
+  mix-blend-mode: multiply;
+  animation: scan 2.6s cubic-bezier(0.45, 0, 0.35, 1) infinite;
+}
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(460%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scan { animation: none; opacity: 0.4; }
+}
+
+/* Highlighter strokes over quoted words. The paper is always white, so the
+   colors are fixed and multiply into the ink like a real marker. */
+.ink {
+  border-radius: 3px;
+  mix-blend-mode: multiply;
+  color: inherit;
+  transition: opacity 0.3s;
+}
+.ink-box {
+  position: absolute;
+  pointer-events: none;
+}
+.ink-note { background: rgba(250, 204, 21, 0.42); }
+.ink-warn { background: rgba(245, 158, 11, 0.38); }
+.ink-ok { background: rgba(132, 204, 22, 0.32); }
+.ink-alert { background: rgba(239, 68, 68, 0.3); box-shadow: inset 0 -2px 0 rgba(220, 38, 38, 0.6); }
+.inks-off .ink { opacity: 0; }
+.inks-off mark.ink { background: none; box-shadow: none; opacity: 1; }
+.ink-flash { animation: ink-flash 0.9s ease-out 2; }
+@keyframes ink-flash {
+  0% { outline: 3px solid rgba(200, 146, 95, 0.9); outline-offset: 2px; }
+  100% { outline: 3px solid rgba(200, 146, 95, 0); outline-offset: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ink-flash { animation: none; outline: 3px solid rgba(200, 146, 95, 0.9); }
+}

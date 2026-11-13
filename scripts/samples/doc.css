@@ -1,0 +1,16 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { width: 850px; padding: 56px 64px; font: 14px/1.45 "Helvetica Neue", Arial, sans-serif; color: #1d1d1f; position: relative; }
+h1 { font-size: 22px; letter-spacing: .02em; }
+h2 { font-size: 15px; margin: 22px 0 8px; text-transform: uppercase; letter-spacing: .06em; }
+p { margin: 6px 0; }
+small, .small { font-size: 11.5px; color: #555; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid #ddd; vertical-align: top; }
+th { background: #f2f2f2; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+.row { display: flex; justify-content: space-between; gap: 24px; }
+.box { border: 1.5px solid #222; padding: 12px 14px; }
+.muted { color: #666; }
+.big { font-size: 20px; font-weight: 700; }
+.stamp { position: absolute; top: 18px; right: 22px; font: 700 11px/1 Arial; letter-spacing: .14em; color: #b33; border: 1.5px solid #b33; padding: 5px 8px; transform: rotate(3deg); }
