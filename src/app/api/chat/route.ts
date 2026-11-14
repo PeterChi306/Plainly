@@ -1,5 +1,5 @@
 import { streamChat, ModelError } from "@/lib/gemini";
-import { checkFiles, outOfMessages, refund, spend, today } from "@/lib/guard";
+import { checkFiles, crossSite, notHere, outOfMessages, refund, spend, today } from "@/lib/guard";
 import { LANGUAGES } from "@/lib/modes";
 import { chatPrompt } from "@/lib/prompts";
 import type { ChatMessage } from "@/lib/types";
@@ -7,6 +7,7 @@ import type { ChatMessage } from "@/lib/types";
 export const maxDuration = 60;
 
 export async function POST(request: Request) {
+  if (crossSite(request)) return notHere();
   const body = await request.json().catch(() => null);
   const files = checkFiles(body?.files);
   if (typeof files === "string") return Response.json({ error: files }, { status: 400 });

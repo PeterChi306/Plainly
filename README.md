@@ -17,6 +17,7 @@ npm run dev                  # http://localhost:3000
 
 - `src/lib/prompts.ts` — the four modes' checks, the safety rules, the answer shape
 - `src/app/api/read` — one structured reading; `src/app/api/chat` — streamed follow-ups
+- `src/lib/guard.ts` — 5 messages per visitor a day, reset at midnight Pacific
 - `src/lib/redact.ts` — long ID numbers cut to the last 4 digits
 - `src/components/` — sidebar, home, thinking orb, results, composer with voice glow
 

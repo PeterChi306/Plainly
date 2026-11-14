@@ -45,7 +45,7 @@ export async function readDocuments(system: string, files: DocFile[], schema: ob
   const response = await post("generateContent", {
     systemInstruction: { parts: [{ text: system }] },
     contents: [{ role: "user", parts: [...docParts(files), { text: "Read these and answer in the required shape." }] }],
-    generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2 },
+    generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2, maxOutputTokens: 16_384 },
   });
   const json = await response.json();
   const text: string | undefined = json?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text ?? "").join("");
@@ -87,7 +87,7 @@ export async function streamChat(system: string, files: DocFile[], messages: Cha
   const response = await post("streamGenerateContent?alt=sse", {
     systemInstruction: { parts: [{ text: system }] },
     contents,
-    generationConfig: { temperature: 0.4 },
+    generationConfig: { temperature: 0.4, maxOutputTokens: 8192 },
   });
 
   const reader = response.body!.getReader();

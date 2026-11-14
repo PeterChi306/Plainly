@@ -6,7 +6,7 @@ import { type Doc, fetchDoc } from "@/lib/files";
 import { forget, forgetAll, keep, loadHistory } from "@/lib/history";
 import { useLanguage } from "@/lib/i18n";
 import { marksOf } from "@/lib/marks";
-import { DAILY_MESSAGES, LANGUAGES, MODES } from "@/lib/modes";
+import { LANGUAGES, MODES } from "@/lib/modes";
 import { SAMPLES } from "@/lib/samples";
 import type { ChatMessage, ModeChoice, Reading } from "@/lib/types";
 import { CalendarView } from "./CalendarView";
@@ -108,7 +108,7 @@ export function Workspace() {
       const json = await res.json().catch(() => ({}));
       if (json.code === "limit") {
         setLeft(0);
-        return t.limit(DAILY_MESSAGES);
+        return t.limit;
       }
       return json.error ?? t.somethingWrong;
     },

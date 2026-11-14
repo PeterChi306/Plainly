@@ -16,7 +16,7 @@ const en = {
   language: "Language",
   appearance: "Appearance",
   themes: { light: "Light", system: "Match system", dark: "Dark" },
-  privacy: "Privacy",
+  privacy: "Privacy & terms",
   history: "History",
   clear: "Clear",
   clearSure: "Clear all?",
@@ -90,7 +90,7 @@ const en = {
   clearerPhoto: "Rather than guess, try a clearer photo: flat, bright, the whole page in frame.",
   writeDraft: (label: string) => `Write the ${label.toLowerCase()} for me`,
   view: (name: string) => `View ${name}`,
-  limit: (n: number) => `That's all ${n} messages for today. Come back tomorrow.`,
+  limit: "You reached the limit for today.",
   somethingWrong: "Something went wrong.",
   noAnswer: "No answer came back. Try asking again.",
 
@@ -175,11 +175,19 @@ const en = {
       "Account numbers, member IDs, card numbers and Social Security numbers are cut down to their last 4 digits before anything reaches your screen.",
     ],
     ["Your history stays on this device", "Readings and chats are saved in this browser only, so you can come back to them. Remove one, or press Clear, and it's gone for good."],
+  ],
+  termsTitle: "The fine print, in plain words.",
+  termsPoints: [
     [
       "Explanations, not advice",
       "Plainly explains documents. It isn't a lawyer, doctor or accountant. For anything important, check with a professional. Plainly will tell you when.",
     ],
+    ["It can be wrong", "Plainly is an AI. It can misread a page or get a number or date wrong. Before you pay, sign or reply, check what matters against the document itself."],
+    ["Only papers you may share", "Upload documents that are yours, or that you have permission to share."],
+    ["For ages 13 and up", "You need to be 13 or older to use Plainly. If you're under 18, have a parent or guardian say it's OK."],
+    ["Free, as it is", "Plainly is free, with a few messages a day each so it stays that way. It comes as it is: it may sometimes be down, and it may change."],
   ],
+  termsContact: ["Questions or a problem?", "Tell us on GitHub"],
 };
 
 export type Dict = typeof en;
@@ -192,7 +200,7 @@ const es: Dict = {
   language: "Idioma",
   appearance: "Apariencia",
   themes: { light: "Claro", system: "Como el sistema", dark: "Oscuro" },
-  privacy: "Privacidad",
+  privacy: "Privacidad y términos",
   history: "Historial",
   clear: "Borrar",
   clearSure: "¿Borrar todo?",
@@ -262,7 +270,7 @@ const es: Dict = {
   clearerPhoto: "Para no adivinar, prueba con una foto más clara: plana, con luz y con toda la página.",
   writeDraft: (label) => `Escríbeme: ${label}`,
   view: (name) => `Ver ${name}`,
-  limit: (n) => `Ya usaste tus ${n} mensajes de hoy. Vuelve mañana.`,
+  limit: "Llegaste al límite de hoy.",
   somethingWrong: "Algo salió mal.",
   noAnswer: "No llegó respuesta. Pregunta otra vez.",
   inPlainWords: "En palabras sencillas",
@@ -333,8 +341,16 @@ const es: Dict = {
     ["Lo lee una IA que no aprende de ti", "Plainly usa la API de Gemini de Google con un plan de pago, en el que Google no usa lo que envías para entrenar sus modelos."],
     ["Los números largos se ocultan", "Los números de cuenta, de miembro, de tarjeta y del Seguro Social se recortan a sus últimos 4 dígitos antes de llegar a tu pantalla."],
     ["Tu historial se queda en este dispositivo", "Las lecturas y los chats se guardan solo en este navegador, para que puedas volver a ellos. Quita uno, o pulsa Borrar, y desaparece para siempre."],
-    ["Explicaciones, no consejos", "Plainly explica documentos. No es abogado, médico ni contador. Para algo importante, consulta a un profesional. Plainly te dirá cuándo."],
   ],
+  termsTitle: "La letra pequeña, en palabras sencillas.",
+  termsPoints: [
+    ["Explicaciones, no consejos", "Plainly explica documentos. No es abogado, médico ni contador. Para algo importante, consulta a un profesional. Plainly te dirá cuándo."],
+    ["Puede equivocarse", "Plainly es una IA. Puede leer mal una página o equivocarse en un número o una fecha. Antes de pagar, firmar o responder, compara lo importante con el documento mismo."],
+    ["Solo papeles que puedas compartir", "Sube documentos que sean tuyos o que tengas permiso para compartir."],
+    ["Para mayores de 13 años", "Necesitas tener 13 años o más para usar Plainly. Si tienes menos de 18, pide permiso a tu madre, padre o tutor."],
+    ["Gratis, tal como es", "Plainly es gratis, con unos pocos mensajes al día por persona para que siga siéndolo. Se ofrece tal como es: a veces puede no funcionar, y puede cambiar."],
+  ],
+  termsContact: ["¿Preguntas o algún problema?", "Escríbenos en GitHub"],
 };
 
 const zh: Dict = {
@@ -345,7 +361,7 @@ const zh: Dict = {
   language: "语言",
   appearance: "外观",
   themes: { light: "浅色", system: "跟随系统", dark: "深色" },
-  privacy: "隐私",
+  privacy: "隐私与条款",
   history: "历史",
   clear: "清除",
   clearSure: "全部清除？",
@@ -415,7 +431,7 @@ const zh: Dict = {
   clearerPhoto: "与其猜测，不如换一张更清楚的照片：放平、光线充足、拍下整页。",
   writeDraft: (label) => `帮我写：${label}`,
   view: (name) => `查看 ${name}`,
-  limit: (n) => `今天的 ${n} 条消息已用完，明天再来吧。`,
+  limit: "你已达到今天的上限。",
   somethingWrong: "出了点问题。",
   noAnswer: "没有收到回答，请再问一次。",
   inPlainWords: "大白话",
@@ -486,8 +502,16 @@ const zh: Dict = {
     ["阅读它的 AI 不会从你这里学习", "Plainly 使用付费版的 Google Gemini API，Google 不会用你发送的内容训练模型。"],
     ["长号码会被隐藏", "账号、会员号、卡号和社会安全号码在显示到屏幕之前，只保留最后 4 位。"],
     ["历史记录只在这台设备上", "解读和聊天只保存在这个浏览器里，方便你回来查看。删除一条，或点“清除”，就会永久消失。"],
-    ["是解释，不是建议", "Plainly 解释文件，它不是律师、医生或会计师。重要的事请咨询专业人士，Plainly 会告诉你什么时候需要。"],
   ],
+  termsTitle: "细则，用大白话说。",
+  termsPoints: [
+    ["是解释，不是建议", "Plainly 解释文件，它不是律师、医生或会计师。重要的事请咨询专业人士，Plainly 会告诉你什么时候需要。"],
+    ["它可能会出错", "Plainly 是 AI，可能读错一页，或把数字、日期弄错。在付款、签字或回复之前，请对照原文件核对重要内容。"],
+    ["只上传你可以分享的文件", "请上传属于你的文件，或你已获准分享的文件。"],
+    ["年满 13 岁", "使用 Plainly 需年满 13 岁。未满 18 岁的话，请先征得父母或监护人同意。"],
+    ["免费，按现状提供", "Plainly 是免费的，每人每天有几条消息的额度，这样才能一直免费。它按现状提供：有时可能无法使用，也可能会有变化。"],
+  ],
+  termsContact: ["有问题或遇到故障？", "在 GitHub 上告诉我们"],
 };
 
 const vi: Dict = {
@@ -498,7 +522,7 @@ const vi: Dict = {
   language: "Ngôn ngữ",
   appearance: "Giao diện",
   themes: { light: "Sáng", system: "Theo hệ thống", dark: "Tối" },
-  privacy: "Quyền riêng tư",
+  privacy: "Quyền riêng tư & điều khoản",
   history: "Lịch sử",
   clear: "Xóa",
   clearSure: "Xóa hết?",
@@ -568,7 +592,7 @@ const vi: Dict = {
   clearerPhoto: "Thay vì đoán, hãy thử ảnh rõ hơn: để phẳng, đủ sáng, chụp trọn trang.",
   writeDraft: (label) => `Viết giúp tôi: ${label}`,
   view: (name) => `Xem ${name}`,
-  limit: (n) => `Bạn đã dùng hết ${n} tin nhắn hôm nay. Mai quay lại nhé.`,
+  limit: "Bạn đã đạt giới hạn hôm nay.",
   somethingWrong: "Có lỗi xảy ra.",
   noAnswer: "Không có câu trả lời. Hãy hỏi lại.",
   inPlainWords: "Nói cho dễ hiểu",
@@ -639,8 +663,16 @@ const vi: Dict = {
     ["AI đọc không học từ bạn", "Plainly dùng Gemini API của Google với gói trả phí, nơi Google không dùng những gì bạn gửi để huấn luyện mô hình."],
     ["Số dài được che đi", "Số tài khoản, số thành viên, số thẻ và số An sinh Xã hội chỉ còn 4 số cuối trước khi hiện lên màn hình."],
     ["Lịch sử nằm trên thiết bị này", "Bản đọc và cuộc trò chuyện chỉ được lưu trong trình duyệt này để bạn xem lại. Gỡ một mục, hoặc bấm Xóa, là mất hẳn."],
-    ["Giải thích, không phải lời khuyên", "Plainly giải thích giấy tờ. Nó không phải luật sư, bác sĩ hay kế toán. Việc quan trọng thì hãy hỏi chuyên gia. Plainly sẽ cho bạn biết khi nào."],
   ],
+  termsTitle: "Điều khoản, bằng lời dễ hiểu.",
+  termsPoints: [
+    ["Giải thích, không phải lời khuyên", "Plainly giải thích giấy tờ. Nó không phải luật sư, bác sĩ hay kế toán. Việc quan trọng thì hãy hỏi chuyên gia. Plainly sẽ cho bạn biết khi nào."],
+    ["Có thể sai", "Plainly là AI. Nó có thể đọc nhầm một trang, hoặc sai một con số hay ngày tháng. Trước khi trả tiền, ký hay trả lời, hãy đối chiếu những điều quan trọng với chính tài liệu."],
+    ["Chỉ giấy tờ bạn được phép chia sẻ", "Hãy tải lên tài liệu của bạn, hoặc tài liệu bạn được phép chia sẻ."],
+    ["Từ 13 tuổi trở lên", "Bạn cần từ 13 tuổi trở lên để dùng Plainly. Nếu dưới 18 tuổi, hãy xin phép cha mẹ hoặc người giám hộ."],
+    ["Miễn phí, như hiện có", "Plainly miễn phí, mỗi người có vài tin nhắn mỗi ngày để nó luôn miễn phí. Plainly được cung cấp như hiện có: đôi khi có thể ngừng hoạt động, và có thể thay đổi."],
+  ],
+  termsContact: ["Có câu hỏi hay gặp sự cố?", "Báo cho chúng tôi trên GitHub"],
 };
 
 const ko: Dict = {
@@ -651,7 +683,7 @@ const ko: Dict = {
   language: "언어",
   appearance: "화면 모드",
   themes: { light: "라이트", system: "시스템 설정", dark: "다크" },
-  privacy: "개인정보",
+  privacy: "개인정보 및 약관",
   history: "기록",
   clear: "지우기",
   clearSure: "모두 지울까요?",
@@ -721,7 +753,7 @@ const ko: Dict = {
   clearerPhoto: "추측하는 대신 더 선명한 사진을 올려 주세요. 평평하게, 밝게, 페이지 전체가 보이게요.",
   writeDraft: (label) => `${label} 써 줘`,
   view: (name) => `${name} 보기`,
-  limit: (n) => `오늘 메시지 ${n}개를 모두 썼어요. 내일 다시 오세요.`,
+  limit: "오늘 한도에 도달했어요.",
   somethingWrong: "문제가 생겼어요.",
   noAnswer: "답이 오지 않았어요. 다시 물어보세요.",
   inPlainWords: "쉽게 말하면",
@@ -792,8 +824,16 @@ const ko: Dict = {
     ["당신에게서 배우지 않는 AI가 읽어요", "Plainly는 유료 요금제의 Google Gemini API를 써요. 이 요금제에서는 Google이 보낸 내용을 모델 학습에 쓰지 않아요."],
     ["긴 번호는 가려요", "계좌번호, 회원번호, 카드번호, 사회보장번호는 화면에 나오기 전에 마지막 4자리만 남겨요."],
     ["기록은 이 기기에만 있어요", "읽은 결과와 대화는 다시 볼 수 있도록 이 브라우저에만 저장돼요. 하나를 삭제하거나 지우기를 누르면 완전히 사라져요."],
-    ["조언이 아니라 설명이에요", "Plainly는 서류를 설명해요. 변호사, 의사, 회계사가 아니에요. 중요한 일은 전문가와 확인하세요. 언제 그래야 하는지 Plainly가 알려 줄게요."],
   ],
+  termsTitle: "약관을 쉬운 말로.",
+  termsPoints: [
+    ["조언이 아니라 설명이에요", "Plainly는 서류를 설명해요. 변호사, 의사, 회계사가 아니에요. 중요한 일은 전문가와 확인하세요. 언제 그래야 하는지 Plainly가 알려 줄게요."],
+    ["틀릴 수 있어요", "Plainly는 AI예요. 페이지를 잘못 읽거나 숫자나 날짜를 틀릴 수 있어요. 돈을 내거나 서명하거나 답장하기 전에, 중요한 내용은 원래 서류와 꼭 대조해 보세요."],
+    ["공유해도 되는 서류만", "본인의 서류나, 공유해도 된다고 허락받은 서류만 올려 주세요."],
+    ["13세 이상", "Plainly는 13세 이상만 쓸 수 있어요. 18세 미만이라면 부모님이나 보호자의 허락을 받아 주세요."],
+    ["무료, 있는 그대로", "Plainly는 무료예요. 계속 무료로 두기 위해 한 사람당 하루에 몇 개의 메시지만 보낼 수 있어요. 있는 그대로 제공되며, 가끔 멈추거나 바뀔 수 있어요."],
+  ],
+  termsContact: ["질문이나 문제가 있나요?", "GitHub에서 알려 주세요"],
 };
 
 const tl: Dict = {
@@ -804,7 +844,7 @@ const tl: Dict = {
   language: "Wika",
   appearance: "Hitsura",
   themes: { light: "Maliwanag", system: "Sundin ang system", dark: "Madilim" },
-  privacy: "Privacy",
+  privacy: "Privacy at mga tuntunin",
   history: "Kasaysayan",
   clear: "Burahin",
   clearSure: "Burahin lahat?",
@@ -874,7 +914,7 @@ const tl: Dict = {
   clearerPhoto: "Para hindi manghula, subukan ang mas malinaw na litrato: patag, maliwanag, kita ang buong pahina.",
   writeDraft: (label) => `Isulat para sa akin: ${label}`,
   view: (name) => `Tingnan ang ${name}`,
-  limit: (n) => `Nagamit mo na ang ${n} mensahe ngayong araw. Bumalik bukas.`,
+  limit: "Naabot mo na ang limitasyon para sa araw na ito.",
   somethingWrong: "May nagkamali.",
   noAnswer: "Walang dumating na sagot. Magtanong muli.",
   inPlainWords: "Sa simpleng salita",
@@ -945,8 +985,16 @@ const tl: Dict = {
     ["Binabasa ng AI na hindi natututo mula sa iyo", "Gumagamit ang Plainly ng Gemini API ng Google sa bayad na plano, kung saan hindi ginagamit ng Google ang ipinapadala mo para sanayin ang mga modelo nito."],
     ["Itinatago ang mahahabang numero", "Ang account number, member ID, card number at Social Security number ay pinaiikli sa huling 4 na digit bago umabot sa screen mo."],
     ["Nasa device na ito ang history mo", "Sa browser na ito lang naka-save ang mga pagbasa at chat, para mabalikan mo. Alisin ang isa, o pindutin ang Burahin, at tuluyan na itong mawawala."],
-    ["Paliwanag, hindi payo", "Nagpapaliwanag si Plainly ng mga dokumento. Hindi ito abogado, doktor o accountant. Para sa mahahalagang bagay, kumonsulta sa propesyonal. Sasabihin ni Plainly kung kailan."],
   ],
+  termsTitle: "Ang fine print, sa simpleng salita.",
+  termsPoints: [
+    ["Paliwanag, hindi payo", "Nagpapaliwanag si Plainly ng mga dokumento. Hindi ito abogado, doktor o accountant. Para sa mahahalagang bagay, kumonsulta sa propesyonal. Sasabihin ni Plainly kung kailan."],
+    ["Puwede itong magkamali", "AI ang Plainly. Puwede itong magkamali ng basa sa isang pahina, o sa isang numero o petsa. Bago ka magbayad, pumirma o sumagot, ikumpara ang mahahalagang bagay sa mismong dokumento."],
+    ["Mga papeles lang na puwede mong i-share", "Mag-upload ng mga dokumentong iyo, o may pahintulot kang i-share."],
+    ["Para sa edad 13 pataas", "Kailangang 13 taong gulang ka pataas para gamitin ang Plainly. Kung wala ka pang 18, magpaalam muna sa magulang o guardian."],
+    ["Libre, kung ano ito", "Libre ang Plainly, may ilang mensahe bawat tao kada araw para manatili itong libre. Ibinibigay ito kung ano ito: minsan puwedeng hindi gumana, at puwede itong magbago."],
+  ],
+  termsContact: ["May tanong o problema?", "Sabihin sa amin sa GitHub"],
 };
 
 const fr: Dict = {
@@ -957,7 +1005,7 @@ const fr: Dict = {
   language: "Langue",
   appearance: "Apparence",
   themes: { light: "Clair", system: "Comme le système", dark: "Sombre" },
-  privacy: "Confidentialité",
+  privacy: "Confidentialité et conditions",
   history: "Historique",
   clear: "Effacer",
   clearSure: "Tout effacer ?",
@@ -1027,7 +1075,7 @@ const fr: Dict = {
   clearerPhoto: "Plutôt que de deviner, essayez une photo plus nette : à plat, bien éclairée, la page entière.",
   writeDraft: (label) => `Rédige pour moi : ${label}`,
   view: (name) => `Voir ${name}`,
-  limit: (n) => `Vous avez utilisé vos ${n} messages du jour. Revenez demain.`,
+  limit: "Vous avez atteint la limite du jour.",
   somethingWrong: "Un problème est survenu.",
   noAnswer: "Aucune réponse. Reposez la question.",
   inPlainWords: "En clair",
@@ -1098,8 +1146,16 @@ const fr: Dict = {
     ["Lu par une IA qui n'apprend pas de vous", "Plainly utilise l'API Gemini de Google avec une offre payante, où Google n'utilise pas ce que vous envoyez pour entraîner ses modèles."],
     ["Les longs numéros sont masqués", "Les numéros de compte, d'adhérent, de carte et de sécurité sociale sont réduits à leurs 4 derniers chiffres avant d'atteindre votre écran."],
     ["Votre historique reste sur cet appareil", "Les lectures et conversations sont enregistrées uniquement dans ce navigateur, pour que vous puissiez y revenir. Retirez-en une, ou appuyez sur Effacer, et elle disparaît pour de bon."],
-    ["Des explications, pas des conseils", "Plainly explique des documents. Ce n'est ni un avocat, ni un médecin, ni un comptable. Pour tout ce qui compte, vérifiez avec un professionnel. Plainly vous dira quand."],
   ],
+  termsTitle: "Les petites lignes, en mots simples.",
+  termsPoints: [
+    ["Des explications, pas des conseils", "Plainly explique des documents. Ce n'est ni un avocat, ni un médecin, ni un comptable. Pour tout ce qui compte, vérifiez avec un professionnel. Plainly vous dira quand."],
+    ["Il peut se tromper", "Plainly est une IA. Il peut mal lire une page, ou se tromper sur un chiffre ou une date. Avant de payer, signer ou répondre, vérifiez l'essentiel sur le document lui-même."],
+    ["Seulement des papiers que vous pouvez partager", "Envoyez des documents qui sont à vous, ou que vous avez le droit de partager."],
+    ["À partir de 13 ans", "Il faut avoir 13 ans ou plus pour utiliser Plainly. Si vous avez moins de 18 ans, demandez l'accord d'un parent ou d'un tuteur."],
+    ["Gratuit, tel quel", "Plainly est gratuit, avec quelques messages par jour et par personne pour qu'il le reste. Il est fourni tel quel : il peut parfois être indisponible, et il peut changer."],
+  ],
+  termsContact: ["Une question ou un problème ?", "Dites-le-nous sur GitHub"],
 };
 
 const ru: Dict = {
@@ -1110,7 +1166,7 @@ const ru: Dict = {
   language: "Язык",
   appearance: "Оформление",
   themes: { light: "Светлая", system: "Как в системе", dark: "Тёмная" },
-  privacy: "Конфиденциальность",
+  privacy: "Приватность и условия",
   history: "История",
   clear: "Очистить",
   clearSure: "Очистить всё?",
@@ -1180,7 +1236,7 @@ const ru: Dict = {
   clearerPhoto: "Чтобы не гадать, попробуйте фото почётче: ровно, светло, вся страница в кадре.",
   writeDraft: (label) => `Напиши за меня: ${label}`,
   view: (name) => `Открыть ${name}`,
-  limit: (n) => `Все ${n} сообщений на сегодня использованы. Приходите завтра.`,
+  limit: "Вы достигли лимита на сегодня.",
   somethingWrong: "Что-то пошло не так.",
   noAnswer: "Ответ не пришёл. Спросите ещё раз.",
   inPlainWords: "Простыми словами",
@@ -1251,8 +1307,16 @@ const ru: Dict = {
     ["Читает ИИ, который не учится на ваших данных", "Plainly использует Gemini API от Google на платном тарифе, где Google не использует ваши данные для обучения моделей."],
     ["Длинные номера скрыты", "Номера счетов, полисов, карт и Social Security сокращаются до последних 4 цифр, прежде чем появиться на экране."],
     ["История хранится на этом устройстве", "Разборы и чаты сохраняются только в этом браузере, чтобы к ним можно было вернуться. Удалите один или нажмите «Очистить», и он исчезнет навсегда."],
-    ["Объяснения, а не советы", "Plainly объясняет документы. Он не юрист, не врач и не бухгалтер. В важных делах уточняйте у специалиста. Plainly подскажет, когда это нужно."],
   ],
+  termsTitle: "Условия — простыми словами.",
+  termsPoints: [
+    ["Объяснения, а не советы", "Plainly объясняет документы. Он не юрист, не врач и не бухгалтер. В важных делах уточняйте у специалиста. Plainly подскажет, когда это нужно."],
+    ["Он может ошибаться", "Plainly — это ИИ. Он может неверно прочитать страницу или ошибиться в числе или дате. Прежде чем платить, подписывать или отвечать, сверьте важное с самим документом."],
+    ["Только документы, которыми можно делиться", "Загружайте свои документы или те, которыми вам разрешили поделиться."],
+    ["С 13 лет", "Пользоваться Plainly можно с 13 лет. Если вам меньше 18, спросите разрешения у родителя или опекуна."],
+    ["Бесплатно, как есть", "Plainly бесплатен: у каждого несколько сообщений в день, чтобы так и оставалось. Он предоставляется как есть: иногда может не работать и может меняться."],
+  ],
+  termsContact: ["Есть вопрос или проблема?", "Напишите нам на GitHub"],
 };
 
 const DICTS: Record<string, Dict> = {

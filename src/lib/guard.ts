@@ -23,35 +23,49 @@ export function checkFiles(files: unknown): DocFile[] | string {
 }
 
 // Each visitor gets a few messages a day: a reading and a follow-up
-// question both count as one. It lives in memory, so it's per server
-// instance and resets when one starts; enough to stop casual abuse.
-const DAY = 86_400_000;
-const sent = new Map<string, number[]>();
+// question both count as one. The count starts over at midnight Pacific.
+// It lives in memory, so it's per server instance and resets when one
+// starts; enough to stop casual abuse.
+const sent = new Map<string, number>();
+let countedDay = "";
 
 const visitor = (request: Request) =>
   request.headers.get("x-real-ip") || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
 
+function newDay() {
+  const day = new Date().toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
+  if (day === countedDay) return;
+  countedDay = day;
+  sent.clear();
+}
+
 /** Uses one of today's messages. Returns how many are left, or null if none were. */
 export function spend(request: Request): number | null {
+  newDay();
   const key = visitor(request);
-  const now = Date.now();
-  const recent = (sent.get(key) ?? []).filter((t) => now - t < DAY);
-  if (recent.length >= DAILY) {
-    sent.set(key, recent);
-    return null;
-  }
-  recent.push(now);
-  sent.set(key, recent);
-  return DAILY - recent.length;
+  const used = sent.get(key) ?? 0;
+  if (used >= DAILY) return null;
+  sent.set(key, used + 1);
+  return DAILY - used - 1;
 }
 
 /** Gives a message back when the reader failed, so errors don't cost one. */
 export function refund(request: Request) {
-  sent.get(visitor(request))?.pop();
+  const key = visitor(request);
+  const used = sent.get(key) ?? 0;
+  if (used > 0) sent.set(key, used - 1);
 }
 
 export const outOfMessages = () =>
-  Response.json({ error: `That's all ${DAILY} messages for today. Come back tomorrow.`, code: "limit" }, { status: 429 });
+  Response.json({ error: "You reached the limit for today.", code: "limit" }, { status: 429 });
+
+/** Browsers mark where a request came from; only Plainly's own pages may call the reader. */
+export const crossSite = (request: Request) => {
+  const site = request.headers.get("sec-fetch-site");
+  return site !== null && site !== "same-origin" && site !== "none";
+};
+
+export const notHere = () => Response.json({ error: "Plainly only answers its own pages." }, { status: 403 });
 
 export function today() {
   return new Date().toLocaleDateString("en-US", {

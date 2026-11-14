@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useT } from "@/lib/i18n";
 import { Logo } from "./Logo";
 
+const ISSUES = "https://github.com/PeterChi306/Plainly/issues";
+
 export function Privacy() {
   const t = useT();
   return (
@@ -29,6 +31,21 @@ export function Privacy() {
           </li>
         ))}
       </ul>
+      <h2 className="mt-16 font-serif text-[32px] leading-[1.1] tracking-tight text-ink">{t.termsTitle}</h2>
+      <ul className="mt-6 divide-y divide-line overflow-hidden rounded-[24px] glass">
+        {t.termsPoints.map(([title, body]) => (
+          <li key={title} className="px-6 py-5">
+            <p className="text-[15px] font-medium text-ink">{title}</p>
+            <p className="mt-1 text-[14px] leading-relaxed text-ink-2">{body}</p>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-6 text-center text-[14px] text-ink-2">
+        {t.termsContact[0]}{" "}
+        <a href={ISSUES} target="_blank" rel="noreferrer" className="text-accent underline-offset-4 hover:underline">
+          {t.termsContact[1]}
+        </a>
+      </p>
       <p className="label mt-8 text-center">{t.tagline}</p>
     </div>
   );

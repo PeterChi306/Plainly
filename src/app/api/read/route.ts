@@ -1,5 +1,5 @@
 import { locateQuotes, readDocuments, ModelError } from "@/lib/gemini";
-import { checkFiles, outOfMessages, refund, spend, today } from "@/lib/guard";
+import { checkFiles, crossSite, notHere, outOfMessages, refund, spend, today } from "@/lib/guard";
 import { MOCK_READING } from "@/lib/mock";
 import { LANGUAGES } from "@/lib/modes";
 import { locatePrompt, locateSchema, readPrompt, readingSchema } from "@/lib/prompts";
@@ -30,6 +30,7 @@ async function placeQuotes(reading: Reading, files: DocFile[]) {
 const CHOICES: ModeChoice[] = ["auto", "money", "legal", "assignment", "syllabus", "other"];
 
 export async function POST(request: Request) {
+  if (crossSite(request)) return notHere();
   const body = await request.json().catch(() => null);
   const files = checkFiles(body?.files);
   if (typeof files === "string") return Response.json({ error: files }, { status: 400 });
