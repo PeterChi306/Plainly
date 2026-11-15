@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   if (left === null) return outOfMessages();
 
   try {
-    const stream = await streamChat(chatPrompt(language, today(), reading), files, messages);
+    const stream = await streamChat(chatPrompt(language, today(body?.sample === true), reading), files, messages);
     return new Response(stream, {
       headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store", "X-Messages-Left": String(left) },
     });

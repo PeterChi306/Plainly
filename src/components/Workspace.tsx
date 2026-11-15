@@ -38,11 +38,13 @@ export type Session = {
   answering: boolean;
   /** Checklist items ticked off. */
   ticked: number[];
+  /** Opened from a sample, so it's read as of the samples' own day. */
+  sample?: boolean;
 };
 
 const files = (docs: Doc[]) => docs.map(({ name, type, data }) => ({ name, type, data }));
 
-type Turn = Pick<Session, "id" | "docs" | "reading" | "chat" | "language">;
+type Turn = Pick<Session, "id" | "docs" | "reading" | "chat" | "language" | "sample">;
 
 const WIDE = "(min-width: 1280px)";
 type View = "home" | "library" | "calendar" | "session";
@@ -137,7 +139,7 @@ export function Workspace() {
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ files: files(turn.docs), reading: turn.reading, messages: sent, language: turn.language }),
+          body: JSON.stringify({ files: files(turn.docs), reading: turn.reading, messages: sent, language: turn.language, sample: turn.sample }),
         });
         const problem = await count(res);
         if (problem || !res.body) throw new Error(problem ?? t.somethingWrong);
@@ -164,13 +166,13 @@ export function Workspace() {
 
   // The question only sets the reading's language here; start() asks it.
   const read = useCallback(
-    async (id: string, docs: Doc[], m: ModeChoice, lang: string, question: string): Promise<Reading | null> => {
+    async (id: string, docs: Doc[], m: ModeChoice, lang: string, question: string, sample = false): Promise<Reading | null> => {
       update(id, () => ({ status: "reading", error: undefined, reading: undefined, chat: [], ticked: [], mode: m, language: lang, question }));
       try {
         const res = await fetch("/api/read", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ files: files(docs), mode: m, language: lang, question }),
+          body: JSON.stringify({ files: files(docs), mode: m, language: lang, question, sample }),
         });
         const problem = await count(res);
         if (problem) throw new Error(problem);
@@ -186,13 +188,13 @@ export function Workspace() {
   );
 
   const start = useCallback(
-    async (docs: Doc[], m: ModeChoice, question = "") => {
+    async (docs: Doc[], m: ModeChoice, question = "", sample = false) => {
       const id = crypto.randomUUID();
-      setSessions((all) => [{ id, at: Date.now(), docs, mode: m, language, question, status: "reading", chat: [], answering: false, ticked: [] }, ...all]);
+      setSessions((all) => [{ id, at: Date.now(), docs, mode: m, language, question, status: "reading", chat: [], answering: false, ticked: [], sample }, ...all]);
       go("session", id);
-      const reading = await read(id, docs, m, language, question);
+      const reading = await read(id, docs, m, language, question, sample);
       // A question typed alongside the upload is answered right after.
-      if (question && reading?.readable) ask({ id, docs, reading, chat: [], language }, question);
+      if (question && reading?.readable) ask({ id, docs, reading, chat: [], language, sample }, question);
     },
     [language, read, ask, go],
   );
@@ -215,7 +217,7 @@ export function Workspace() {
       const sample = SAMPLES.find((s) => s.id === sampleId);
       if (!sample) return;
       const docs = await Promise.all(sample.files.map((f) => fetchDoc(f.url, f.name)));
-      start(docs, mode);
+      start(docs, mode, "", true);
     },
     [mode, start],
   );
@@ -321,9 +323,9 @@ export function Workspace() {
                 key={active.id}
                 session={active}
                 language={language}
-                onMode={(m) => read(active.id, active.docs, m, active.language, active.question)}
-                onRetry={() => read(active.id, active.docs, active.mode, active.language, active.question)}
-                onReadIn={() => read(active.id, active.docs, active.mode, language, "")}
+                onMode={(m) => read(active.id, active.docs, m, active.language, active.question, active.sample)}
+                onRetry={() => read(active.id, active.docs, active.mode, active.language, active.question, active.sample)}
+                onReadIn={() => read(active.id, active.docs, active.mode, language, "", active.sample)}
                 onDraft={(label, instruction) => ask(active, instruction, t.writeDraft(label))}
                 onView={(page) => setViewing({ docs: active.docs, page })}
                 onCite={cite}

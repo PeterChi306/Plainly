@@ -67,8 +67,12 @@ export const crossSite = (request: Request) => {
 
 export const notHere = () => Response.json({ error: "Plainly only answers its own pages." }, { status: 403 });
 
-export function today() {
-  return new Date().toLocaleDateString("en-US", {
+// The samples are read as of the day they were made, so their deadlines
+// tell the same story whenever someone tries them.
+const SAMPLE_DAY = new Date("2026-11-12T12:00:00-08:00");
+
+export function today(sample = false) {
+  return (sample ? SAMPLE_DAY : new Date()).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",

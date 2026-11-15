@@ -5,7 +5,7 @@ Paperwork, in plain words. Upload a bill, lease, notice, syllabus or assignment;
 ## Run it
 
 ```bash
-cp .env.example .env.local   # then paste your GEMINI_API_KEY
+echo GEMINI_API_KEY=your-key > .env.local
 npm run dev                  # http://localhost:3000
 ```
 

@@ -7,9 +7,12 @@ const SSN = /(?<!\d)\d{3}-\d{2}-(\d{4})(?!\d)/g;
 const RUN = /(?<!\d)\d(?:[ -]?\d){7,}(?!\d)/g;
 const PHONE = /^(1[ -])?\d{3}[ -]\d{3}[ -]\d{4}$/;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+// The model sometimes masks a number itself but keeps too many digits (••••38271).
+const MASKED = /•{2,}[ -]?\d+(\d{4})(?!\d)/g;
 
 export function redact(text: string): string {
   return text
+    .replace(MASKED, (_, last) => `••••${last}`)
     .replace(SSN, (_, last) => `•••-••-${last}`)
     .replace(RUN, (match: string) => {
       if (PHONE.test(match) || ISO_DATE.test(match)) return match;

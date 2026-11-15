@@ -96,8 +96,11 @@ function Blocks({ text }: { text: string }) {
 function Letter({ text }: { text: string }) {
   const t = useT();
   const [copied, setCopied] = useState(false);
-  // A letter is pasted as is, so markdown bold would arrive as asterisks.
-  const plain = text.trim().replace(/\*\*([^*\n]+)\*\*/g, "$1");
+  // A letter is pasted as is, so markdown bold and bullets would arrive as asterisks.
+  const plain = text
+    .trim()
+    .replace(/\*\*([^*\n]+)\*\*/g, "$1")
+    .replace(/^[ \t]*\*[ \t]+/gm, "- ");
   return (
     <div className="relative my-3 rounded-[18px] bg-solid px-5 py-5 shadow-[0_12px_32px_-18px_rgba(60,40,20,0.4)] ring-1 ring-line">
       <button

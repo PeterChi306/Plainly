@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   if (process.env.PLAINLY_MOCK === "1") return Response.json({ reading: MOCK_READING }, { headers });
 
   try {
-    const reading: Reading = await readDocuments(readPrompt(mode, language, today(), question), files, readingSchema);
+    const reading: Reading = await readDocuments(readPrompt(mode, language, today(body?.sample === true), question), files, readingSchema);
     await placeQuotes(reading, files);
     return Response.json({ reading: redactDeep(reading) }, { headers });
   } catch (error) {
