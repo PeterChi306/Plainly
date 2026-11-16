@@ -297,19 +297,38 @@ body {
   }
 }
 
-/* While Plainly reads, a band of candlelight passes down the page. */
+/* While Plainly reads, a band of candlelight passes down the page. Every edge
+   is feathered: the glow eases in over many stops, the leading line fades on
+   both sides, the mask softens the left and right, and the band fades in and
+   out at the ends of its pass so it never pops. */
 .scan {
+  --scan-glow: color-mix(in oklab, var(--candle) 34%, transparent);
+  --scan-edge: color-mix(in oklab, var(--accent-2) 40%, transparent);
   position: absolute;
   inset: 0 0 auto;
-  height: 22%;
+  height: 28%;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--candle) 34%, transparent) 70%, color-mix(in oklab, var(--accent-2) 55%, transparent) 98%, transparent);
+  background:
+    linear-gradient(180deg, transparent 82%, var(--scan-edge) 92%, transparent),
+    linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in oklab, var(--scan-glow) 8%, transparent) 25%,
+      color-mix(in oklab, var(--scan-glow) 30%, transparent) 50%,
+      color-mix(in oklab, var(--scan-glow) 65%, transparent) 72%,
+      var(--scan-glow) 88%,
+      transparent
+    );
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
   mix-blend-mode: multiply;
-  animation: scan 2.6s cubic-bezier(0.45, 0, 0.35, 1) infinite;
+  will-change: transform, opacity;
+  animation: scan 2.8s cubic-bezier(0.45, 0, 0.35, 1) infinite;
 }
 @keyframes scan {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(460%); }
+  0% { transform: translateY(-100%); opacity: 0; }
+  18%, 82% { opacity: 1; }
+  100% { transform: translateY(360%); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .scan { animation: none; opacity: 0.4; }
